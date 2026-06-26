@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd /workspaces/Shweta-s-Dental-Practice-Website && git status --short && git add index\\.html && git commit -m \"Add appearance property for compatibility\" && git push origin main$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
