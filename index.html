@@ -125,6 +125,8 @@ nav.up{box-shadow:var(--sdm)}
 .balbel{position:absolute;top:10px;padding:3px 10px;border-radius:12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;z-index:11;transition:opacity .2s}
 .blbefore{left:10px;background:rgba(0,0,0,.45);color:#fff}
 .blafter{right:10px;background:rgba(16,185,129,.9);color:#fff}
+.balbel.tag-before{background:rgba(0,0,0,.45)}
+.balbel.tag-after{background:rgba(16,185,129,.9)}
 .bainfo{padding:18px 22px;background:#fff}
 .bactag{font-size:.7rem;color:var(--b);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
 .batitle{font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:3px}
@@ -216,47 +218,74 @@ footer{background:#0f172a;color:rgba(255,255,255,.65);padding:56px 0 28px}
 .mhead h3{font-size:1.3rem;font-weight:800;margin-bottom:5px}
 .mhead p{color:var(--mu);font-size:.875rem}
 /* Floating */
-/* For desktop */
 .whatsapp_float {
   position: fixed;
-  width: 53px;
-  height: 53px;
-  bottom: 11px;
-  right: 15px;
-  border-radius: 50px;
-  text-align: center;
+  width: 60px;
+  height: 60px;
+  bottom: 22px;
+  right: 22px;
+  display: grid;
+  place-items: center;
+  padding: 7px;
+  border-radius: 20px;
   z-index: 100;
-  border: none;
+  overflow: hidden;
+  background: linear-gradient(145deg,rgba(255,255,255,.82),rgba(237,248,255,.44));
+  border: 1px solid rgba(255,255,255,.75);
+  box-shadow: 0 10px 30px rgba(15,23,42,.18),inset 0 1px 0 rgba(255,255,255,.9);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
   outline: none;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
-  transform: scale(1.1);
+  transition: transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+
+.whatsapp_float::before {
+  content: '';
+  position: absolute;
+  inset: 2px 7px auto;
+  height: 40%;
+  border-radius: 14px;
+  background: linear-gradient(180deg,rgba(255,255,255,.55),transparent);
+  pointer-events: none;
 }
 
 .whatsapp_float:hover {
-  transform: scale(1.2);
+  transform: translateY(-3px) scale(1.04);
+  border-color: rgba(255,255,255,.95);
+  box-shadow: 0 14px 34px rgba(15,23,42,.22),0 0 0 4px rgba(37,211,102,.1),inset 0 1px 0 #fff;
+}
+
+.whatsapp_float:focus-visible {
+  box-shadow: 0 0 0 4px rgba(14,165,233,.25),0 12px 32px rgba(15,23,42,.2);
 }
 
 .home-whatsapp-icon {
-  width: 51px;
-  height: 51px;
+  position: relative;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  filter: drop-shadow(0 5px 8px rgba(18,140,76,.24));
 }
 
 .home-whatsapp-icon svg {
+  display: block;
   width: 100%;
   height: 100%;
 }
 
-/* For mobile */
 @media screen and (max-width: 767px) {
-  .home-whatsapp-icon {
-    width: 40px;
-    height: 40px;
+  .whatsapp_float {
+    width: 54px;
+    height: 54px;
+    bottom: 20px;
+    right: 16px;
+    padding: 6px;
+    border-radius: 18px;
   }
 
-  .whatsapp_float {
-    bottom: 20px;
-  }
+  .home-whatsapp-icon{width:42px;height:42px}
 }
 
 /* Animations */
@@ -454,12 +483,12 @@ footer{background:#0f172a;color:rgba(255,255,255,.65);padding:56px 0 28px}
           <div class="babtn" id="bbtn0">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L2 10L6 16M14 4L18 10L14 16" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span class="balbel blbefore">After</span>
-          <span class="balbel blafter">Before</span>
+          <span class="balbel blbefore tag-after">After</span>
+          <span class="balbel blafter tag-before">Before</span>
         </div>
         <div class="bainfo">
-          <div class="bactag">Case 01 · Missing teeth </div>
-          <div class="batitle">Replaced with a Dental Bridge</div>
+          <div class="bactag">Case 01 · Missing teeth & Dark Gums </div>
+          <div class="batitle">Replaced with Dental Bridge & Gum Depigmentation</div>
           <div class="badur">⏱ Treatment Duration: ~3 Days</div>
         </div>
       </div>
@@ -471,29 +500,29 @@ footer{background:#0f172a;color:rgba(255,255,255,.65);padding:56px 0 28px}
           <div class="babtn" id="bbtn1">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L2 10L6 16M14 4L18 10L14 16" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span class="balbel blbefore">Before</span>
-          <span class="balbel blafter">After</span>
+          <span class="balbel blbefore tag-before">Before</span>
+          <span class="balbel blafter tag-after">After</span>
         </div>
         <div class="bainfo">
           <div class="bactag">Case 02 · Plaque, Stains & Bad Breath  </div>
           <div class="batitle">Scaling and Polishing of Teeth</div>
-          <div class="badur">⏱ Treatment Duration: ~30 Minutes in a Single Visit</div>
+          <div class="badur">⏱ Treatment Duration: ~1 visit</div>
         </div>
       </div>
       <div class="bacard fi fi3">
-        <div class="baslider" id="sl2">
+        <div class="baslider" id="sl2" data-reverse-highlight="true">
           <div class="balayer baa" id="sla2" style="background-image:url('./images/Case03 Before.png')"></div>
           <div class="balayer bab" id="slb2" style="background-image:url('./images/Case03 After.png')"></div>
           <div class="baline" id="bln2"></div>
           <div class="babtn" id="bbtn2">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L2 10L6 16M14 4L18 10L14 16" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span class="balbel blbefore">After</span>
-          <span class="balbel blafter">Before</span>
+          <span class="balbel blbefore tag-after">After</span>
+          <span class="balbel blafter tag-before">Before</span>
         </div>
         <div class="bainfo">
-          <div class="bactag">Case 03 · Full Transformation</div>
-          <div class="batitle">Complete Smile Makeover</div>
+          <div class="bactag">Case 03 ·  Infected Tooth</div>
+          <div class="batitle"> Cleaned from Inside & Tooth Cap to Restore Strength and Shape.</div>
           <div class="badur">⏱ Treatment Duration: ~18 months with Clear Aligners</div>
         </div>
       </div>
@@ -505,8 +534,8 @@ footer{background:#0f172a;color:rgba(255,255,255,.65);padding:56px 0 28px}
           <div class="babtn" id="bbtn3">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L2 10L6 16M14 4L18 10L14 16" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span class="balbel blbefore">After</span>
-          <span class="balbel blafter">Before</span>
+          <span class="balbel blbefore tag-after">After</span>
+          <span class="balbel blafter tag-before">Before</span>
         </div>
         <div class="bainfo">
           <div class="bactag">Case 04 · Smile Brightening</div>
@@ -522,8 +551,8 @@ footer{background:#0f172a;color:rgba(255,255,255,.65);padding:56px 0 28px}
           <div class="babtn" id="bbtn4">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L2 10L6 16M14 4L18 10L14 16" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span class="balbel blbefore">Before</span>
-          <span class="balbel blafter">After</span>
+          <span class="balbel blbefore tag-before">Before</span>
+          <span class="balbel blafter tag-after">After</span>
         </div>
         <div class="bainfo">
           <div class="bactag">Case 05 · Oral Hygiene Care</div>
@@ -532,15 +561,15 @@ footer{background:#0f172a;color:rgba(255,255,255,.65);padding:56px 0 28px}
         </div>
       </div>
       <div class="bacard fi fi3">
-        <div class="baslider" id="sl5">
+        <div class="baslider" id="sl5" data-reverse-highlight="true">
           <div class="balayer baa" id="sla5" style="background-image:url('./images/Case03 Before.png')"></div>
           <div class="balayer bab" id="slb5" style="background-image:url('./images/Case03 After.png')"></div>
           <div class="baline" id="bln5"></div>
           <div class="babtn" id="bbtn5">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L2 10L6 16M14 4L18 10L14 16" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span class="balbel blbefore">After</span>
-          <span class="balbel blafter">Before</span>
+          <span class="balbel blbefore tag-after">After</span>
+          <span class="balbel blafter tag-before">Before</span>
         </div>
         <div class="bainfo">
           <div class="bactag">Case 06 · Advanced Smile Correction</div>
@@ -705,10 +734,20 @@ Maharashtra 411004</p>
 </div>
 </footer>
 
-<a href="https://api.whatsapp.com/send?phone=918605864503&amp;text=Hi%20Dr%20Shweta%2C%0A%0AWhen%20are%20your%20next%20available%20appointments%3F" class="whatsapp_float" target="_blank" rel="noopener noreferrer">
-  <span class="home-whatsapp-icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="80" height="80" viewBox="0 0 80 80">
-<path fill="#f2faff" d="M7.904,58.665L7.8,58.484c-3.263-5.649-4.986-12.102-4.983-18.66 C2.826,19.244,19.577,2.5,40.157,2.5C50.14,2.503,59.521,6.391,66.57,13.446C73.618,20.5,77.5,29.879,77.5,39.855 c-0.01,20.583-16.76,37.328-37.34,37.328c-6.247-0.003-12.418-1.574-17.861-4.543l-0.174-0.096L2.711,77.636L7.904,58.665z"></path><path fill="#788b9c" d="M40.157,3L40.157,3c9.85,0.003,19.105,3.838,26.059,10.799C73.17,20.76,77,30.013,77,39.855 c-0.009,20.307-16.536,36.828-36.855,36.828c-6.149-0.003-12.237-1.553-17.606-4.482l-0.349-0.19l-0.384,0.101l-18.384,4.82 l4.91-17.933l0.11-0.403l-0.209-0.362c-3.22-5.574-4.92-11.94-4.917-18.41C3.326,19.52,19.852,3,40.157,3 M40.157,2 C19.302,2,2.326,18.969,2.317,39.824C2.313,46.49,4.055,53,7.367,58.735L2,78.339l20.06-5.26 c5.526,3.015,11.751,4.601,18.084,4.604h0.016c20.855,0,37.831-16.969,37.84-37.827c0-10.108-3.933-19.613-11.077-26.764 C59.78,5.942,50.28,2.003,40.157,2L40.157,2z"></path><path fill="#79ba7e" d="M39.99,70c-5.009-0.003-9.965-1.263-14.332-3.646l-2.867-1.564l-3.159,0.828l-6.482,1.699	l1.659-6.061l0.907-3.312l-1.718-2.974C11.38,50.437,9.997,45.255,10,39.986C10.007,23.453,23.464,10.002,39.997,10	c8.022,0.003,15.558,3.126,21.221,8.793C66.881,24.461,70,31.998,70,40.011C69.992,56.547,56.535,70,39.99,70z"></path><path fill="#fff" d="M56.561,47.376c-0.9-0.449-5.321-2.626-6.143-2.924c-0.825-0.301-1.424-0.449-2.023,0.449	c-0.599,0.9-2.322,2.924-2.845,3.523c-0.524,0.599-1.048,0.674-1.948,0.226c-0.9-0.449-3.797-1.4-7.23-4.462	c-2.674-2.382-4.478-5.327-5.001-6.227c-0.524-0.9-0.057-1.385,0.394-1.834c0.403-0.403,0.9-1.051,1.349-1.575	c0.449-0.524,0.599-0.9,0.9-1.5c0.301-0.599,0.151-1.126-0.075-1.575c-0.226-0.449-2.023-4.875-2.773-6.673	c-0.729-1.752-1.472-1.515-2.023-1.542c-0.524-0.027-1.123-0.03-1.722-0.03c-0.599,0-1.575,0.226-2.397,1.126	c-0.822,0.9-3.147,3.074-3.147,7.498s3.222,8.699,3.671,9.298c0.449,0.599,6.338,9.678,15.36,13.571	c2.144,0.924,3.821,1.478,5.125,1.894c2.153,0.684,4.113,0.587,5.664,0.355c1.728-0.259,5.321-2.174,6.067-4.273	c0.75-2.099,0.75-3.899,0.524-4.273C58.06,48.051,57.461,47.825,56.561,47.376z"></path>
-</svg></span></a>
+<a href="https://api.whatsapp.com/send?phone=918605864503&amp;text=Hi%20Dr%20Shweta%2C%0A%0AWhen%20are%20your%20next%20available%20appointments%3F" class="whatsapp_float" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+  <span class="home-whatsapp-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="whatsappGreen" x1="16" y1="10" x2="64" y2="70" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#35e879"/>
+          <stop offset="1" stop-color="#18b957"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#whatsappGreen)" d="M40 5C20.67 5 5 20.67 5 40c0 6.1 1.56 11.84 4.3 16.84L5 73l16.6-4.35A34.84 34.84 0 0 0 40 75c19.33 0 35-15.67 35-35S59.33 5 40 5z"/>
+      <path fill="#fff" d="M56.56 47.38c-.9-.45-5.32-2.63-6.14-2.92-.83-.3-1.42-.45-2.02.45-.6.9-2.32 2.92-2.85 3.52-.52.6-1.05.67-1.95.23-.9-.45-3.8-1.4-7.23-4.46-2.67-2.38-4.48-5.33-5-6.23-.52-.9-.06-1.38.39-1.83.4-.4.9-1.05 1.35-1.58.45-.52.6-.9.9-1.5.3-.6.15-1.12-.08-1.57-.22-.45-2.02-4.88-2.77-6.67-.73-1.75-1.47-1.52-2.02-1.54-.53-.03-1.13-.03-1.73-.03s-1.57.22-2.4 1.12c-.82.9-3.14 3.08-3.14 7.5 0 4.43 3.22 8.7 3.67 9.3.45.6 6.34 9.68 15.36 13.57 2.14.93 3.82 1.48 5.12 1.9 2.16.68 4.12.58 5.67.35 1.73-.26 5.32-2.17 6.07-4.27.75-2.1.75-3.9.52-4.27-.22-.38-.82-.6-1.72-1.05z"/>
+    </svg>
+  </span>
+</a>
 
 <script>
 function submitForm(e){
@@ -784,14 +823,13 @@ sliders.forEach((slider,idx)=>{
  const babtn=document.getElementById(`bbtn${idx}`);
  const blbefore=slider.querySelector('.blbefore');
  const blafter=slider.querySelector('.blafter');
+ const reverseHighlight=slider.dataset.reverseHighlight==='true';
  let isDown=false;
  let isHovered=false;
- let hoverFrameId=null;
- let hoverDirection=1;
 
  function updateLabels(percent){
-  if(blbefore)blbefore.style.opacity=percent<20?1:0.3;
-  if(blafter)blafter.style.opacity=percent>80?1:0.3;
+  if(blbefore)blbefore.style.opacity=(reverseHighlight?percent>80:percent<20)?1:0.3;
+  if(blafter)blafter.style.opacity=(reverseHighlight?percent<20:percent>80)?1:0.3;
  }
 
  function setSliderPosition(percent,duration=0){
@@ -817,57 +855,18 @@ sliders.forEach((slider,idx)=>{
   setSliderPosition(percent);
  }
 
- function stopHoverAuto(){
-  if(hoverFrameId){
-   cancelAnimationFrame(hoverFrameId);
-   hoverFrameId=null;
-  }
- }
-
- function animateHoveredSlider(targetPercent,startPercent=50){
-  if(hoverFrameId||isDown)return;
-  const startTime=performance.now();
-  const distance=targetPercent-startPercent;
-
-  function frame(now){
-   const elapsed=now-startTime;
-   const t=Math.min(1,elapsed/autoDuration);
-   const eased=easeInOutSine(t);
-   const percent=startPercent + distance * eased;
-   setSliderPosition(percent);
-
-   if(t<1){
-    hoverFrameId=requestAnimationFrame(frame);
-   } else {
-    hoverFrameId=null;
-    if(isHovered&&!isDown){
-     hoverDirection*=-1;
-     animateHoveredSlider(hoverDirection===1?100:0,50);
-    }
-   }
-  }
-
-  hoverFrameId=requestAnimationFrame(frame);
- }
-
- function startHoverAuto(){
-  if(isDown||!isHovered||hoverFrameId)return;
-  setSliderPosition(50,200);
-  animateHoveredSlider(hoverDirection===1?100:0,50);
- }
-
  slider.__render=(percent)=>{
   if(!isDown&&!isHovered)setSliderPosition(percent);
  };
 
- slider.addEventListener('mouseenter',()=>{isHovered=true;startHoverAuto();});
- slider.addEventListener('mouseleave',()=>{isHovered=false;stopHoverAuto();setSliderPosition(getSyncPercent());});
- slider.addEventListener('mousedown',()=>{stopHoverAuto();isDown=true;});
- slider.addEventListener('touchstart',()=>{stopHoverAuto();isDown=true;});
+ slider.addEventListener('mouseenter',()=>{isHovered=true;setSliderPosition(50,200);});
+ slider.addEventListener('mouseleave',()=>{isHovered=false;if(!isDown)setSliderPosition(getSyncPercent());});
+ slider.addEventListener('mousedown',()=>{isDown=true;});
+ slider.addEventListener('touchstart',()=>{isDown=true;});
  document.addEventListener('mousemove',updateSlider);
  document.addEventListener('touchmove',updateSlider);
- document.addEventListener('mouseup',()=>{isDown=false;if(isHovered)startHoverAuto();else setSliderPosition(getSyncPercent());});
- document.addEventListener('touchend',()=>{isDown=false;if(isHovered)startHoverAuto();else setSliderPosition(getSyncPercent());});
+ document.addEventListener('mouseup',()=>{isDown=false;if(!isHovered)setSliderPosition(getSyncPercent());});
+ document.addEventListener('touchend',()=>{isDown=false;if(!isHovered)setSliderPosition(getSyncPercent());});
 });
 
 resumeSyncAnimation();
