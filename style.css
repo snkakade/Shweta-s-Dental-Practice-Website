@@ -203,14 +203,17 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 }
 .brand svg { width: 34px; }
 .brand span { display: flex; flex-direction: column; line-height: 1; }
-.brand b { font-size: .77rem; font-weight: 600; }
-.brand small { margin-top: 5px; color: var(--ink-soft); font-size: .56rem; text-transform: uppercase; letter-spacing: .07em; }
-.nav { display: flex; gap: clamp(22px, 3vw, 48px); }
+.brand b { font-size: 1rem; font-weight: 600; }
+.brand small { margin-top: 5px; color: var(--ink-soft); font-size: .68rem; text-transform: uppercase; letter-spacing: .07em; }
+.nav { display: flex; align-items: center; gap: clamp(22px, 3vw, 48px); }
 .nav a {
   position: relative;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
   padding: 8px 0;
   font-family: var(--mono);
-  font-size: .65rem;
+  font-size: .85rem;
   text-transform: uppercase;
 }
 .nav a::after {
@@ -226,6 +229,12 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   transition: transform .4s var(--ease);
 }
 .nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav__invisalign {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+.nav__invisalign img { width: 150px; height: auto; }
 .header__book {
   min-width: 132px;
   height: 42px;
@@ -291,11 +300,13 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   padding: 9px 0;
   border-bottom: 1px solid var(--white-line);
   font-family: var(--serif);
-  font-size: clamp(3rem, 13vw, 5rem);
+  font-size: clamp(2.25rem, 9vw, 3.5rem);
   font-weight: 300;
   line-height: 1;
 }
 .menu nav span { padding-top: 8px; font-family: var(--mono); font-size: .6rem; }
+.menu nav .menu__invisalign { align-items: center; }
+.menu__invisalign img { width: clamp(125px, 34vw, 175px); height: auto; }
 .menu__foot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .68rem; }
 
 .hero {
@@ -599,6 +610,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   height: 320vh;
   color: var(--ink);
   background: #dfeef0;
+  scroll-margin-top: -80px;
 }
 .invisalign__sticky {
   position: sticky;
@@ -735,7 +747,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.invisalign__brand img { width: min(150px, 15vw); height: auto; }
+.invisalign__brand img { width: min(220px, 20vw); height: auto; }
 .invisalign__content h2 {
   max-width: 760px;
   margin: 4vh 0 3.5vh;
@@ -762,6 +774,19 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .invisalign__beat p { max-width: 440px; font-family: var(--serif); font-size: clamp(1.25rem, 1.8vw, 1.8rem); line-height: 1.12; }
 .invisalign__lead { max-width: 550px; color: var(--ink-soft); font-size: clamp(.82rem, 1vw, 1rem); }
 .invisalign__actions { margin-top: 3.2vh; }
+.invisalign__learn {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  color: #37636e;
+  font-family: var(--mono);
+  font-size: .62rem;
+  text-transform: uppercase;
+}
+.invisalign__learn span { font-size: 1rem; transition: transform .3s var(--ease); }
+.invisalign__learn:hover span { transform: translateX(4px); }
 .invisalign__cta {
   width: min(350px, 100%);
   min-height: 56px;
@@ -814,6 +839,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   overflow: hidden;
   color: #ecf1ed;
   background: var(--forest);
+  scroll-margin-top: -80px;
 }
 .doctor__image { position: relative; height: 100%; min-height: 0; overflow: hidden; }
 .doctor__image img { width: 100%; height: 100%; object-fit: cover; object-position: center 52%; transition: transform 1.2s var(--ease); }
@@ -935,6 +961,31 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .comparison__tag--before { left: 22px; }
 .comparison__tag--after { right: 22px; }
 .results__note { max-width: 600px; margin: 22px 0 0 auto; color: #89938d; font-size: .72rem; }
+.results__more {
+  width: fit-content;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin: 42px 0 0 auto;
+  padding: 6px 7px 6px 22px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50px;
+  font-size: .78rem;
+  transition: color .35s, background .35s, border-color .35s;
+}
+.results__more:hover { color: var(--ink); background: var(--acid); border-color: var(--acid); }
+.results__more i {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--acid);
+  font-style: normal;
+}
+.results__more:hover i { background: var(--ink); color: #fff; }
 
 .testimonials {
   display: grid;
@@ -1123,7 +1174,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .invisalign__detail { width: min(24vw, 235px); opacity: 1; transform: rotate(7deg); }
   .invisalign__content { padding: 110px 7vw; }
   .invisalign__brand { position: relative; top: auto; right: auto; margin-bottom: 65px; }
-  .invisalign__brand img { width: 190px; }
+  .invisalign__brand img { width: 230px; }
   .invisalign__content h2 { margin: 45px 0; }
   .invisalign__beats { min-height: 0; display: grid; gap: 0; margin-bottom: 45px; }
   .invisalign__beat,
@@ -1170,6 +1221,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .care-item button { min-height: 90px; grid-template-columns: 36px 1fr auto; gap: 8px; }
   .care-item__title { font-size: 1.65rem; }
   .care-item__body { padding-left: 44px; }
+  .invisalign { scroll-margin-top: -68px; }
   .invisalign__visual { min-height: 72vh; }
   .invisalign__video { opacity: .28; object-position: center; }
   .invisalign__orbit { width: 88vw; }
@@ -1179,12 +1231,13 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .invisalign__coordinate { bottom: 18px; left: 20px; }
   .invisalign__content { padding: 95px 22px 105px; }
   .invisalign__brand { margin-bottom: 70px; }
-  .invisalign__brand img { width: 190px; }
+  .invisalign__brand img { width: 210px; }
   .invisalign__content h2 { margin: 45px 0 35px; }
   .invisalign__beat,
   .invisalign__beat.is-active { grid-template-columns: 75px 1fr; gap: 12px; }
   .invisalign__actions { margin-top: 42px; }
   .doctor__image { min-height: 58vh; max-height: 620px; }
+  .doctor { scroll-margin-top: -68px; }
   .doctor__image img { object-position: center 45%; }
   .doctor__content { padding: 85px 22px; }
   .doctor__content h2 { margin: 50px 0; }
@@ -1194,11 +1247,25 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .process__sticky { position: relative; top: 0; padding: 0; }
   .process__sticky h2 { margin: 45px 0 65px; }
   .process__meter { display: none; }
-  .process-step { min-height: 70vh; }
+  .process-step {
+    min-height: 0;
+    padding: 28px 0 42px;
+  }
+  .process-step > span {
+    margin-bottom: 28px;
+    padding-top: 0;
+  }
+  .process-step__icon {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 24px;
+  }
+  .process-step h3 { margin-bottom: 14px; }
   .results { padding: 110px 20px; }
   .comparison { aspect-ratio: 4 / 5; }
   .comparison__before img { width: calc(100vw - 40px); }
   .comparison__line span { width: 48px; height: 48px; }
+  .results__more { width: 100%; justify-content: space-between; margin-top: 34px; }
   .testimonials { padding: 110px 22px; }
   .testimonials__intro h2 { margin-top: 45px; }
   .quotes { min-height: 570px; padding-top: 55px; }

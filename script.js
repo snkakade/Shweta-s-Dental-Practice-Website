@@ -65,6 +65,20 @@
   };
   menuButton.addEventListener("click", () => toggleMenu());
   menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => toggleMenu(false)));
+  ["doctor", "invisalign"].forEach((sectionId) => {
+    document.querySelectorAll(`a[href="#${sectionId}"]`).forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const section = document.getElementById(sectionId);
+        history.pushState(null, "", `#${sectionId}`);
+        if (lenis) {
+          lenis.scrollTo(section, { offset: 0 });
+        } else {
+          section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+        }
+      });
+    });
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") toggleMenu(false);
   });
