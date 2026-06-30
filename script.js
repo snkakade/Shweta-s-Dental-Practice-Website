@@ -260,51 +260,6 @@
     scannerObserver.observe(scannerMedia);
   }
 
-  document.querySelectorAll("[data-remove-light-bg]").forEach((image) => {
-    const source = new Image();
-    let processed = false;
-    const removeLightBackground = () => {
-      if (processed) return;
-      processed = true;
-      try {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d", { willReadFrequently: true });
-        canvas.width = source.naturalWidth;
-        canvas.height = source.naturalHeight;
-        context.drawImage(source, 0, 0);
-        const frame = context.getImageData(0, 0, canvas.width, canvas.height);
-        const pixels = frame.data;
-
-        for (let index = 0; index < pixels.length; index += 4) {
-          const red = pixels[index];
-          const green = pixels[index + 1];
-          const blue = pixels[index + 2];
-          const lightness = (red + green + blue) / 3;
-          const spread = Math.max(red, green, blue) - Math.min(red, green, blue);
-
-          if (spread < 16 && lightness > 208) {
-            pixels[index + 3] = lightness >= 236
-              ? 0
-              : Math.round(((236 - lightness) / 28) * 255);
-          }
-        }
-
-        context.putImageData(frame, 0, 0);
-        canvas.toBlob((blob) => {
-          if (!blob) return;
-          image.src = URL.createObjectURL(blob);
-          image.removeAttribute("data-remove-light-bg");
-        }, "image/png");
-      } catch {
-        image.removeAttribute("data-remove-light-bg");
-      }
-    };
-
-    source.addEventListener("load", removeLightBackground, { once: true });
-    source.src = image.getAttribute("data-remove-light-bg");
-    if (source.complete) removeLightBackground();
-  });
-
   const compareSlider = document.getElementById("compareSlider");
   const beforeLayer = document.getElementById("beforeLayer");
   const compareLine = document.getElementById("compareLine");
