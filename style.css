@@ -21,6 +21,7 @@
 *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html:has(:target) { scroll-behavior: auto; }
 body {
   margin: 0;
   color: var(--ink);
@@ -33,9 +34,12 @@ body {
 }
 body.loading,
 body.menu-open { overflow: hidden; }
+body:has(:target) { overflow: auto; }
+body:has(:target) .loader { display: none; }
 ::selection { color: var(--ink); background: var(--acid); }
 a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
+img,
+video { display: block; max-width: 100%; height: auto; }
 button,
 input,
 select { color: inherit; font: inherit; }
@@ -534,49 +538,177 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 }
 
 .invisalign {
+  --invis-progress: 0;
   position: relative;
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: .68fr 1.32fr;
-  gap: 8vw;
-  align-items: center;
-  padding: clamp(110px, 12vw, 190px) 6vw;
-  overflow: hidden;
-  background: #e5f2f4;
+  height: 320vh;
+  color: var(--ink);
+  background: #dfeef0;
 }
-.invisalign__brand,
-.invisalign__content { position: relative; z-index: 2; }
-.invisalign__brand { align-self: start; }
+.invisalign__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: .96fr 1.04fr;
+  overflow: hidden;
+}
+.invisalign__visual {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #d7e8e9;
+}
+.invisalign__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .34;
+  filter: saturate(.25) contrast(.92);
+  mix-blend-mode: multiply;
+  transform: scale(1.05);
+}
+.invisalign__wash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, transparent 55%, rgba(223,238,240,.88)),
+    linear-gradient(0deg, rgba(223,238,240,.7), transparent 35%);
+  pointer-events: none;
+}
+.invisalign__orbit {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: min(47vw, 680px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(0, 106, 144, .2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.invisalign__orbit::before,
+.invisalign__orbit::after {
+  position: absolute;
+  border: 1px solid rgba(0, 106, 144, .16);
+  border-radius: 50%;
+  content: "";
+}
+.invisalign__orbit::before { inset: 16%; }
+.invisalign__orbit::after { inset: 34%; }
+.invisalign__orbit i {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #009ace;
+  box-shadow: 0 0 0 9px rgba(0,154,206,.1);
+}
+.invisalign__orbit i:nth-child(1) { top: 7%; left: 38%; }
+.invisalign__orbit i:nth-child(2) { right: 9%; bottom: 24%; opacity: .55; }
+.invisalign__orbit i:nth-child(3) { bottom: 12%; left: 21%; opacity: .25; }
+.invisalign__product {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: min(28vw, 460px);
+  filter: drop-shadow(0 40px 35px rgba(30,67,58,.23));
+  transform: translate(-50%, -50%) rotate(-8deg);
+  transform-origin: 50% 70%;
+  will-change: transform;
+}
+.invisalign__smile,
+.invisalign__detail {
+  position: absolute;
+  z-index: 3;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.invisalign__smile {
+  top: 12%;
+  left: 7%;
+  width: min(27vw, 410px);
+  aspect-ratio: 1;
+  border: 8px solid rgba(255,255,255,.72);
+  border-radius: 50%;
+  box-shadow: 0 28px 70px rgba(0,86,118,.15);
+  transform: translateY(70px) scale(.75);
+}
+.invisalign__smile img { width: 100%; height: 100%; object-fit: cover; object-position: 62% center; }
+.invisalign__detail {
+  right: 3vw;
+  bottom: 8%;
+  width: min(19vw, 285px);
+  border: 7px solid rgba(255,255,255,.78);
+  box-shadow: 0 30px 70px rgba(0,86,118,.18);
+  transform: translate(50px, 50px) rotate(8deg) scale(.8);
+}
+.invisalign__detail img { width: 100%; }
+.invisalign__coordinate {
+  position: absolute;
+  z-index: 5;
+  bottom: 31px;
+  left: 34px;
+  font-family: var(--mono);
+  font-size: .54rem;
+  letter-spacing: .07em;
+}
+.invisalign__content {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10vh clamp(35px, 6vw, 105px) 11vh;
+  background: rgba(239,247,246,.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.invisalign__brand { position: absolute; top: 5vh; right: clamp(35px, 6vw, 105px); }
 .invisalign__brand > span {
   display: block;
-  margin-bottom: 18px;
+  margin-bottom: 9px;
+  color: #527279;
   font-family: var(--mono);
-  font-size: .59rem;
+  font-size: .53rem;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.invisalign__brand img { width: min(250px, 80%); height: auto; }
+.invisalign__brand img { width: min(150px, 15vw); height: auto; }
 .invisalign__content h2 {
-  max-width: 900px;
-  margin: 65px 0 50px;
-  font-size: clamp(4rem, 7.6vw, 8rem);
+  max-width: 760px;
+  margin: 4vh 0 3.5vh;
+  font-size: clamp(3.5rem, 6.2vw, 7.2rem);
 }
-.invisalign__lead { max-width: 660px; color: var(--ink-soft); font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
-.invisalign__benefits {
+.invisalign__beats {
+  position: relative;
+  min-height: 98px;
+  margin-bottom: 3vh;
+  border-top: 1px solid rgba(0, 106, 144, .25);
+}
+.invisalign__beat {
+  position: absolute;
+  inset: 22px 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 100px 1fr;
   gap: 24px;
-  margin: 65px 0 50px;
-  padding-top: 25px;
-  border-top: 1px solid rgba(0, 106, 144, .24);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
 }
-.invisalign__benefits > div { display: flex; gap: 14px; }
-.invisalign__benefits span { color: #009ace; font-family: var(--mono); font-size: .58rem; }
-.invisalign__benefits p { color: var(--ink-soft); font-size: .72rem; }
-.invisalign__benefits strong { display: block; margin-bottom: 7px; color: var(--ink); font-size: .78rem; font-weight: 600; }
+.invisalign__beat.is-active { opacity: 1; transform: none; }
+.invisalign__beat span { color: #007ba5; font-family: var(--mono); font-size: .56rem; text-transform: uppercase; }
+.invisalign__beat p { max-width: 440px; font-family: var(--serif); font-size: clamp(1.25rem, 1.8vw, 1.8rem); line-height: 1.12; }
+.invisalign__lead { max-width: 550px; color: var(--ink-soft); font-size: clamp(.82rem, 1vw, 1rem); }
+.invisalign__actions { margin-top: 3.2vh; }
 .invisalign__cta {
-  width: min(390px, 100%);
-  min-height: 60px;
+  width: min(350px, 100%);
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -584,7 +716,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   border-radius: 50px;
   color: #fff;
   background: #006a90;
-  font-size: .75rem;
+  font-size: .69rem;
 }
 .invisalign__cta i {
   width: 42px;
@@ -596,44 +728,26 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   background: #fff;
   font-style: normal;
 }
-.invisalign__legal { max-width: 570px; display: block; margin-top: 20px; color: #66787a; font-size: .56rem; }
-.invisalign__art {
+.invisalign__legal { max-width: 520px; display: block; margin-top: 14px; color: #66787a; font-size: .51rem; }
+.invisalign__progress {
   position: absolute;
-  left: -20vw;
-  bottom: -32vw;
-  width: 68vw;
-  aspect-ratio: 1;
-  border: 1px solid rgba(0, 154, 206, .18);
-  border-radius: 50%;
-  animation: spin 36s linear infinite;
+  z-index: 10;
+  right: 4vw;
+  bottom: 24px;
+  left: calc(50% + 4vw);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+  color: #597076;
+  font-family: var(--mono);
+  font-size: .51rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
 }
-.invisalign__art::before,
-.invisalign__art::after {
-  position: absolute;
-  border: 1px solid rgba(0, 154, 206, .15);
-  border-radius: 50%;
-  content: "";
-}
-.invisalign__art::before { inset: 14%; }
-.invisalign__art::after { inset: 31%; }
-.invisalign__art > i {
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: #009ace;
-}
-.invisalign__art > i:nth-of-type(1) { top: 4%; left: 47%; }
-.invisalign__art > i:nth-of-type(2) { top: 36%; right: 2%; opacity: .55; }
-.invisalign__art > i:nth-of-type(3) { left: 17%; bottom: 11%; opacity: .25; }
-.aligner-shell {
-  position: absolute;
-  inset: 35%;
-  border: 2px solid rgba(255,255,255,.85);
-  border-radius: 48% 52% 43% 57% / 56% 42% 58% 44%;
-  background: rgba(255,255,255,.18);
-  box-shadow: inset 0 0 30px rgba(0,154,206,.12), 0 20px 60px rgba(0,106,144,.1);
-}
+.invisalign__progress > i { height: 1px; display: block; overflow: hidden; background: rgba(0,106,144,.2); }
+.invisalign__progress b { width: 0; height: 100%; display: block; background: #007ba5; }
+.invisalign__progress > span:last-child { min-width: 18px; color: #007ba5; }
 
 .doctor {
   display: grid;
@@ -697,6 +811,43 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .process-step__icon.scan::before { position: absolute; inset: 14px; border: 1px dashed var(--ink); border-radius: 50%; content: ""; animation: spin 10s linear infinite; }
 .process-step__icon.plan::before { position: absolute; inset: 24px; border: 1px solid var(--ink); transform: rotate(45deg); content: ""; }
 .process-step__icon.finish { background: var(--acid); }
+.scanner-media {
+  position: relative;
+  width: min(100%, 520px);
+  min-height: 250px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 42px;
+  overflow: hidden;
+  border: 1px solid rgba(23,32,29,.16);
+  border-radius: 3px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.5), transparent),
+    #cbdcd3;
+}
+.scanner-media video {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .6s var(--ease);
+}
+.scanner-media.is-playable video { opacity: 1; }
+.scanner-media__fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  transition: opacity .5s var(--ease);
+}
+.scanner-media__fallback .process-step__icon { margin: 0; }
+.scanner-media__fallback small { font-family: var(--mono); font-size: .56rem; letter-spacing: .08em; text-transform: uppercase; }
+.scanner-media.is-playable .scanner-media__fallback { opacity: 0; pointer-events: none; }
 .process-step h3 { margin-bottom: 24px; font-size: clamp(2.5rem, 4vw, 4.8rem); }
 .process-step p { max-width: 480px; color: var(--ink-soft); font-size: clamp(1rem, 1.3vw, 1.2rem); }
 
@@ -886,6 +1037,13 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 
 .footer { padding: 85px 4vw 25px; color: #e9efeb; background: var(--ink); }
 .footer__top { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: start; padding-bottom: 80px; }
+.footer__identity { display: flex; align-items: flex-start; flex-direction: column; gap: 32px; }
+.footer__provider {
+  width: min(230px, 90%);
+  height: auto;
+  filter: contrast(1.04);
+  transition: opacity .3s;
+}
 .brand--footer small { color: #87918b; }
 .footer__top > p { color: #9ca6a0; font-family: var(--serif); font-size: clamp(1.4rem, 2vw, 2rem); line-height: 1.15; }
 .footer__call { display: flex; align-items: flex-end; flex-direction: column; font-family: var(--serif); font-size: clamp(1.4rem, 2vw, 2rem); }
@@ -929,8 +1087,20 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .section-head { grid-template-columns: 1fr 2fr; }
   .section-head > p:last-child { grid-column: 2; }
   .care__stage { grid-template-columns: .75fr 1.25fr; gap: 5vw; }
-  .invisalign { grid-template-columns: .45fr 1.55fr; }
-  .invisalign__benefits { grid-template-columns: 1fr; }
+  .invisalign { height: auto; }
+  .invisalign__sticky { position: relative; height: auto; grid-template-columns: 1fr; }
+  .invisalign__visual { min-height: 75vh; }
+  .invisalign__product { width: min(43vw, 430px); }
+  .invisalign__smile { width: min(34vw, 340px); opacity: 1; transform: none; }
+  .invisalign__detail { width: min(24vw, 235px); opacity: 1; transform: rotate(7deg); }
+  .invisalign__content { padding: 110px 7vw; }
+  .invisalign__brand { position: relative; top: auto; right: auto; margin-bottom: 65px; }
+  .invisalign__brand img { width: 190px; }
+  .invisalign__content h2 { margin: 45px 0; }
+  .invisalign__beats { min-height: 0; display: grid; gap: 0; margin-bottom: 45px; }
+  .invisalign__beat,
+  .invisalign__beat.is-active { position: relative; inset: auto; min-height: 95px; padding: 22px 0; opacity: 1 !important; transform: none !important; border-bottom: 1px solid rgba(0,106,144,.18); }
+  .invisalign__progress { display: none; }
   .doctor { grid-template-columns: 1fr; }
   .doctor__image { min-height: 68vh; max-height: 800px; }
   .doctor__image img { object-position: center 48%; }
@@ -970,12 +1140,20 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .care-item button { min-height: 90px; grid-template-columns: 36px 1fr auto; gap: 8px; }
   .care-item__title { font-size: 1.65rem; }
   .care-item__body { padding-left: 44px; }
-  .invisalign { display: block; min-height: 0; padding: 110px 22px; }
-  .invisalign__brand { margin-bottom: 75px; }
+  .invisalign__visual { min-height: 72vh; }
+  .invisalign__video { opacity: .28; object-position: center; }
+  .invisalign__orbit { width: 88vw; }
+  .invisalign__product { width: 58vw; }
+  .invisalign__smile { top: 7%; left: -7%; width: 42vw; border-width: 5px; }
+  .invisalign__detail { right: -4vw; bottom: 6%; width: 31vw; border-width: 4px; }
+  .invisalign__coordinate { bottom: 18px; left: 20px; }
+  .invisalign__content { padding: 95px 22px 105px; }
+  .invisalign__brand { margin-bottom: 70px; }
   .invisalign__brand img { width: 190px; }
   .invisalign__content h2 { margin: 45px 0 35px; }
-  .invisalign__benefits { margin: 50px 0 40px; }
-  .invisalign__art { left: -65vw; bottom: -35vw; width: 125vw; }
+  .invisalign__beat,
+  .invisalign__beat.is-active { grid-template-columns: 75px 1fr; gap: 12px; }
+  .invisalign__actions { margin-top: 42px; }
   .doctor__image { min-height: 58vh; max-height: 620px; }
   .doctor__image img { object-position: center 45%; }
   .doctor__content { padding: 85px 22px; }
@@ -1020,4 +1198,12 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
   .cursor { display: none; }
+  .invisalign { height: auto; }
+  .invisalign__sticky { position: relative; height: auto; min-height: 100vh; }
+  .invisalign__beats { min-height: 0; display: grid; }
+  .invisalign__beat,
+  .invisalign__beat.is-active { position: relative; inset: auto; padding: 16px 0; opacity: 1; transform: none; }
+  .invisalign__smile,
+  .invisalign__detail { opacity: 1; transform: none; }
+  .invisalign__progress { display: none; }
 }

@@ -161,6 +161,150 @@
     processSteps.forEach((step) => processObserver.observe(step));
   }
 
+  const invisalignSection = document.getElementById("invisalign");
+  const invisalignProduct = document.getElementById("invisalignProduct");
+  const invisalignSmile = document.getElementById("invisalignSmile");
+  const invisalignDetail = document.getElementById("invisalignDetail");
+  const invisalignVideo = document.getElementById("invisalignVideo");
+  const invisalignOrbit = invisalignSection.querySelector(".invisalign__orbit");
+  const invisalignProgress = document.getElementById("invisalignProgress");
+  const invisalignProgressLabel = document.getElementById("invisalignProgressLabel");
+  const invisalignBeats = [...invisalignSection.querySelectorAll(".invisalign__beat")];
+  const desktopInvisalign = window.matchMedia("(min-width: 981px)");
+  let activeInvisalignBeat = 0;
+  let invisalignFrame = 0;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const resetInvisalignMotion = () => {
+    [invisalignProduct, invisalignSmile, invisalignDetail, invisalignVideo, invisalignOrbit].forEach((element) => {
+      element.style.removeProperty("transform");
+      element.style.removeProperty("opacity");
+    });
+    invisalignProgress.style.removeProperty("width");
+  };
+  const renderInvisalign = () => {
+    invisalignFrame = 0;
+    if (!desktopInvisalign.matches || reduceMotion) {
+      resetInvisalignMotion();
+      return;
+    }
+
+    const rect = invisalignSection.getBoundingClientRect();
+    const distance = Math.max(1, invisalignSection.offsetHeight - window.innerHeight);
+    const progress = clamp(-rect.top / distance);
+    const driftX = (progress - .45) * 145;
+    const driftY = Math.sin(progress * Math.PI) * -42 + progress * 58;
+    const rotation = -10 + progress * 25;
+    const scale = 1 + Math.sin(progress * Math.PI) * .12;
+    const smileReveal = clamp((progress - .2) / .27);
+    const detailReveal = clamp((progress - .58) / .24);
+
+    invisalignSection.style.setProperty("--invis-progress", progress.toFixed(3));
+    invisalignProduct.style.transform = `translate(calc(-50% + ${driftX}px), calc(-50% + ${driftY}px)) rotate(${rotation}deg) scale(${scale})`;
+    invisalignSmile.style.opacity = smileReveal.toFixed(3);
+    invisalignSmile.style.transform = `translateY(${(1 - smileReveal) * 70}px) scale(${.75 + smileReveal * .25})`;
+    invisalignDetail.style.opacity = detailReveal.toFixed(3);
+    invisalignDetail.style.transform = `translate(${(1 - detailReveal) * 50}px, ${(1 - detailReveal) * 50}px) rotate(${8 - detailReveal * 13}deg) scale(${.8 + detailReveal * .2})`;
+    invisalignVideo.style.opacity = String(.34 - progress * .15);
+    invisalignVideo.style.transform = `scale(${1.05 + progress * .05}) translateY(${progress * -14}px)`;
+    invisalignOrbit.style.transform = `translate(-50%, -50%) rotate(${progress * 125}deg)`;
+    invisalignProgress.style.width = `${progress * 100}%`;
+
+    const nextBeat = Math.min(2, Math.floor(progress * 3));
+    if (nextBeat !== activeInvisalignBeat) {
+      activeInvisalignBeat = nextBeat;
+      invisalignBeats.forEach((beat, index) => beat.classList.toggle("is-active", index === activeInvisalignBeat));
+      invisalignProgressLabel.textContent = String(activeInvisalignBeat + 1).padStart(2, "0");
+    }
+  };
+  const queueInvisalignRender = () => {
+    if (!invisalignFrame) invisalignFrame = requestAnimationFrame(renderInvisalign);
+  };
+
+  window.addEventListener("scroll", queueInvisalignRender, { passive: true });
+  window.addEventListener("resize", queueInvisalignRender);
+  desktopInvisalign.addEventListener("change", queueInvisalignRender);
+  renderInvisalign();
+
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    const videoObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        invisalignVideo.play().catch(() => {});
+      } else {
+        invisalignVideo.pause();
+      }
+    }, { threshold: .08 });
+    videoObserver.observe(invisalignSection);
+  } else if (reduceMotion) {
+    invisalignVideo.pause();
+  }
+
+  const scannerMedia = document.getElementById("scannerMedia");
+  const scannerVideo = document.getElementById("scannerVideo");
+  const activateScannerVideo = () => {
+    scannerMedia.classList.add("is-playable");
+    if (!reduceMotion) scannerVideo.play().catch(() => {});
+  };
+  scannerVideo.addEventListener("canplay", activateScannerVideo, { once: true });
+  if (scannerVideo.readyState >= 3) activateScannerVideo();
+
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    const scannerObserver = new IntersectionObserver(([entry]) => {
+      if (!scannerMedia.classList.contains("is-playable")) return;
+      if (entry.isIntersecting) {
+        scannerVideo.play().catch(() => {});
+      } else {
+        scannerVideo.pause();
+      }
+    }, { threshold: .15 });
+    scannerObserver.observe(scannerMedia);
+  }
+
+  document.querySelectorAll("[data-remove-light-bg]").forEach((image) => {
+    const source = new Image();
+    let processed = false;
+    const removeLightBackground = () => {
+      if (processed) return;
+      processed = true;
+      try {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        canvas.width = source.naturalWidth;
+        canvas.height = source.naturalHeight;
+        context.drawImage(source, 0, 0);
+        const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = frame.data;
+
+        for (let index = 0; index < pixels.length; index += 4) {
+          const red = pixels[index];
+          const green = pixels[index + 1];
+          const blue = pixels[index + 2];
+          const lightness = (red + green + blue) / 3;
+          const spread = Math.max(red, green, blue) - Math.min(red, green, blue);
+
+          if (spread < 16 && lightness > 208) {
+            pixels[index + 3] = lightness >= 236
+              ? 0
+              : Math.round(((236 - lightness) / 28) * 255);
+          }
+        }
+
+        context.putImageData(frame, 0, 0);
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          image.src = URL.createObjectURL(blob);
+          image.removeAttribute("data-remove-light-bg");
+        }, "image/png");
+      } catch {
+        image.removeAttribute("data-remove-light-bg");
+      }
+    };
+
+    source.addEventListener("load", removeLightBackground, { once: true });
+    source.src = image.getAttribute("data-remove-light-bg");
+    if (source.complete) removeLightBackground();
+  });
+
   const compareSlider = document.getElementById("compareSlider");
   const beforeLayer = document.getElementById("beforeLayer");
   const compareLine = document.getElementById("compareLine");
