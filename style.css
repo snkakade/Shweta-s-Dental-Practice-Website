@@ -235,9 +235,11 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   gap: 1px;
 }
 .nav__invisalign img { width: 150px; height: auto; }
+.nav a.nav__invisalign::after { transform: scaleX(1); }
+.header.is-scrolled .nav a.nav__invisalign::after { transform: scaleX(0); }
 .header__book {
-  min-width: 132px;
-  height: 42px;
+  min-width: 142px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -246,7 +248,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   border-radius: 30px;
   color: #fff;
   background: var(--ink);
-  font-size: .72rem;
+  font-size: .8rem;
 }
 .header__book i {
   width: 27px;
@@ -258,6 +260,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   background: var(--acid);
   font-style: normal;
 }
+.mobile-invisalign { display: none; }
 .menu-button {
   width: 42px;
   height: 42px;
@@ -295,7 +298,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .menu nav { display: flex; flex-direction: column; }
 .menu nav a {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 18px;
   padding: 9px 0;
   border-bottom: 1px solid var(--white-line);
@@ -304,7 +307,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   font-weight: 300;
   line-height: 1;
 }
-.menu nav span { padding-top: 8px; font-family: var(--mono); font-size: .6rem; }
+.menu nav span { padding-top: 0; font-family: var(--mono); font-size: .6rem; line-height: 1; }
 .menu nav .menu__invisalign { align-items: center; }
 .menu__invisalign img { width: clamp(125px, 34vw, 175px); height: auto; }
 .menu__foot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .68rem; }
@@ -776,20 +779,24 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .invisalign__actions { margin-top: 3.2vh; }
 .invisalign__learn {
   width: fit-content;
+  min-height: 52px;
   display: flex;
   align-items: center;
   gap: 12px;
   margin-top: 18px;
+  padding: 0 18px;
+  border: 1px solid rgba(0,106,144,.35);
+  border-radius: 50px;
   color: #37636e;
   font-family: var(--mono);
-  font-size: .62rem;
+  font-size: .82rem;
   text-transform: uppercase;
 }
 .invisalign__learn span { font-size: 1rem; transition: transform .3s var(--ease); }
 .invisalign__learn:hover span { transform: translateX(4px); }
 .invisalign__cta {
-  width: min(350px, 100%);
-  min-height: 56px;
+  width: min(380px, 100%);
+  min-height: 62px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -797,7 +804,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   border-radius: 50px;
   color: #fff;
   background: #006a90;
-  font-size: .69rem;
+  font-size: .92rem;
 }
 .invisalign__cta i {
   width: 42px;
@@ -963,7 +970,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .results__note { max-width: 600px; margin: 22px 0 0 auto; color: #89938d; font-size: .72rem; }
 .results__more {
   width: fit-content;
-  min-height: 54px;
+  min-height: 58px;
   display: flex;
   align-items: center;
   gap: 28px;
@@ -971,7 +978,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   padding: 6px 7px 6px 22px;
   border: 1px solid rgba(255,255,255,.3);
   border-radius: 50px;
-  font-size: .78rem;
+  font-size: .84rem;
   transition: color .35s, background .35s, border-color .35s;
 }
 .results__more:hover { color: var(--ink); background: var(--acid); border-color: var(--acid); }
@@ -1153,9 +1160,33 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 
 @media (max-width: 980px) {
   .cursor { display: none; }
-  .header { grid-template-columns: 1fr auto; }
+  .header { grid-template-columns: 1fr auto auto; gap: 10px; }
   .nav,
   .header__book { display: none; }
+  .mobile-invisalign {
+    position: relative;
+    max-width: 100px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid rgba(0,106,144,.25);
+    border-radius: 24px;
+    background: rgba(255,255,255,.45);
+    overflow: hidden;
+    transition: max-width .75s var(--ease), height .75s var(--ease), padding .75s var(--ease), opacity .55s, background .3s, border-color .3s, transform .75s var(--ease);
+  }
+  .header.is-scrolled .mobile-invisalign {
+    max-width: 0;
+    height: 0;
+    padding: 0;
+    border-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(14px) scale(.88);
+  }
+  .mobile-invisalign:hover { border-color: #007ba5; background: #fff; transform: translateY(-1px); }
+  .mobile-invisalign img { width: 76px; height: auto; }
   .menu-button { display: grid; }
   .hero__visual img { object-position: 61% center; }
   .hero__veil { background: linear-gradient(90deg, rgba(246,243,235,.91), rgba(246,243,235,.4) 60%, rgba(246,243,235,.1)); }

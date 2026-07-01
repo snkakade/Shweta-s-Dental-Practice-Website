@@ -69,6 +69,7 @@
     document.querySelectorAll(`a[href="#${sectionId}"]`).forEach((link) => {
       link.addEventListener("click", (event) => {
         event.preventDefault();
+        event.stopPropagation();
         const section = document.getElementById(sectionId);
         history.pushState(null, "", `#${sectionId}`);
         if (lenis) {
@@ -77,6 +78,35 @@
           section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
         }
       });
+    });
+  });
+  document.querySelectorAll('a[href="#care"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const careSection = document.getElementById("care");
+      const target = careSection.getBoundingClientRect().top + window.scrollY + 90;
+      history.pushState(null, "", "#care");
+      if (lenis) {
+        lenis.scrollTo(target);
+      } else {
+        window.scrollTo({ top: target, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    });
+  });
+  document.querySelectorAll('a[href="#visit"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const visitContent = document.querySelector("#visit .visit__content");
+      const rect = visitContent.getBoundingClientRect();
+      const target = rect.top + window.scrollY + rect.height / 2 - window.innerHeight / 2;
+      history.pushState(null, "", "#visit");
+      if (lenis) {
+        lenis.scrollTo(target);
+      } else {
+        window.scrollTo({ top: target, behavior: reduceMotion ? "auto" : "smooth" });
+      }
     });
   });
   document.addEventListener("keydown", (event) => {

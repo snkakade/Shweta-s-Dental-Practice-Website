@@ -63,6 +63,20 @@
   };
   menuButton.addEventListener("click", () => toggleMenu());
   menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => toggleMenu(false)));
+  document.querySelectorAll('a[href="#starting-point"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const title = document.getElementById("starting-title");
+      const target = title.getBoundingClientRect().top + window.scrollY - 84;
+      history.pushState(null, "", "#starting-point");
+      if (lenis) {
+        lenis.scrollTo(target);
+      } else {
+        window.scrollTo({ top: target, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    });
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") toggleMenu(false);
   });

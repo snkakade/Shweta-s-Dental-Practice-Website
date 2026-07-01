@@ -146,7 +146,7 @@
 .transformations-cta h2 { margin: 55px 0 65px; font-size: clamp(4rem, 9vw, 9rem); }
 .transformations-cta__button {
   min-width: min(100%, 330px);
-  min-height: 66px;
+  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -154,6 +154,7 @@
   border-radius: 50px;
   color: #fff;
   background: var(--ink);
+  font-size: .92rem;
 }
 .transformations-cta__button i {
   width: 50px;
