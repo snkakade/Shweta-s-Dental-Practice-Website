@@ -13,8 +13,8 @@
     radial-gradient(circle at 78% 24%, rgba(217,243,109,.72), transparent 23%),
     linear-gradient(135deg, var(--paper), var(--mist));
 }
-.transformations-hero h1 { margin: 55px 0 65px; }
-.transformations-hero h1 .line { display: block; overflow: hidden; }
+.transformations-hero h1 { margin: 55px 0 65px; line-height: 1.02; }
+.transformations-hero h1 .line { display: block; padding-bottom: .08em; overflow: hidden; }
 .transformations-hero h1 .line > span { display: block; animation: titleUp 1.2s .5s both var(--ease); }
 .transformations-hero h1 .line:nth-child(2) > span { animation-delay: .62s; }
 .transformations-hero h1 .line--offset { padding-left: 16vw; }
