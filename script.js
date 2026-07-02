@@ -143,6 +143,17 @@
     link.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
+      if (link.closest(".header, .menu")) {
+        document.querySelectorAll(".care-item").forEach((item) => {
+          item.classList.remove("is-active");
+          item.querySelector("button").setAttribute("aria-expanded", "false");
+        });
+        document.querySelector(".care__visual")?.classList.remove("is-changing", "is-jewellery");
+        const number = document.getElementById("careNumber");
+        const label = document.getElementById("careVisualLabel");
+        if (number) number.textContent = "—";
+        if (label) label.textContent = "Explore";
+      }
       const careSection = document.getElementById("care");
       const target = careSection.getBoundingClientRect().top + window.scrollY + 90;
       history.pushState(null, "", "#care");
@@ -230,10 +241,45 @@
 
   const careItems = [...document.querySelectorAll(".care-item")];
   const careVisual = document.querySelector(".care__visual");
+  const careList = document.querySelector(".care__list");
   const careNumber = document.getElementById("careNumber");
   const careLabel = document.getElementById("careVisualLabel");
+  const jewelCareItem = document.querySelector(".care-item--jewel");
+  if (jewelCareItem && "IntersectionObserver" in window) {
+    const jewelObserver = new IntersectionObserver(([entry]) => {
+      jewelCareItem.classList.toggle("is-in-view", entry.isIntersecting);
+    }, { threshold: .45 });
+    jewelObserver.observe(jewelCareItem);
+  } else {
+    jewelCareItem?.classList.add("is-in-view");
+  }
+  const showFullCareList = () => {
+    if (!window.matchMedia("(min-width: 981px)").matches) return;
+    window.requestAnimationFrame(() => {
+      const target = window.scrollY + careList.getBoundingClientRect().top - 68;
+      if (lenis) {
+        lenis.scrollTo(target, { duration: reduceMotion ? 0 : .85 });
+      } else {
+        window.scrollTo({ top: target, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    });
+  };
+  const centerOpenedCare = (item) => {
+    if (!window.matchMedia("(max-width: 680px)").matches) return;
+    window.setTimeout(() => {
+      const rect = item.getBoundingClientRect();
+      const target = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2;
+      if (lenis) {
+        lenis.scrollTo(target, { duration: reduceMotion ? 0 : .8 });
+      } else {
+        window.scrollTo({ top: target, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    }, reduceMotion ? 0 : 640);
+  };
   careItems.forEach((item) => {
     item.querySelector("button").addEventListener("click", () => {
+      showFullCareList();
+      centerOpenedCare(item);
       if (item.classList.contains("is-active")) return;
       careItems.forEach((other) => {
         other.classList.remove("is-active");
@@ -242,6 +288,7 @@
       item.classList.add("is-active");
       item.querySelector("button").setAttribute("aria-expanded", "true");
       careVisual.classList.add("is-changing");
+      careVisual.classList.toggle("is-jewellery", item === jewelCareItem);
       window.setTimeout(() => {
         careNumber.textContent = item.dataset.number;
         careLabel.textContent = item.dataset.care;

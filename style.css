@@ -528,6 +528,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .care__visual {
   position: sticky;
   top: 110px;
+  isolation: isolate;
   aspect-ratio: 1;
   align-self: start;
   display: grid;
@@ -555,8 +556,90 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .care__rings i:nth-child(2) { inset: 30%; }
 .care__rings i:nth-child(3) { inset: 45%; background: var(--acid); }
 @keyframes spin { to { transform: rotate(1turn); } }
-.care__tooth { position: relative; z-index: 1; width: 38%; filter: drop-shadow(0 25px 25px rgba(28,64,55,.14)); transition: transform .7s var(--ease); }
+.care__tooth { position: relative; z-index: 1; width: 38%; opacity: 1; filter: drop-shadow(0 25px 25px rgba(28,64,55,.14)); transition: opacity .35s, transform .7s var(--ease); }
 .care__visual.is-changing .care__tooth { transform: scale(.82) rotate(-8deg); }
+.care__visual.is-jewellery .care__tooth { opacity: 0; transform: scale(.72) rotate(-12deg); }
+.care__jewel-photo {
+  position: absolute;
+  z-index: 1;
+  inset: 5%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.64);
+  border-radius: 50%;
+  background: var(--forest);
+  box-shadow: 0 30px 65px rgba(23,32,29,.2);
+  opacity: 0;
+  clip-path: circle(0 at 62% 62%);
+  transform: scale(.86) rotate(-3deg);
+  transition: opacity .3s, clip-path 1s var(--ease), transform 1s var(--ease);
+  pointer-events: none;
+}
+.care__jewel-photo > img { width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+.care__jewel-photo::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(155deg, transparent 54%, rgba(13,39,31,.42));
+  content: "";
+}
+.care__jewel-caption {
+  position: absolute;
+  z-index: 20;
+  top: 15%;
+  right: 16%;
+  padding: 9px 12px;
+  border-radius: 30px;
+  color: var(--ink);
+  background: var(--acid);
+  box-shadow: 0 8px 24px rgba(13,39,31,.2);
+  font-family: var(--mono);
+  font-size: .5rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity .35s .55s, transform .55s .5s var(--ease);
+  pointer-events: none;
+}
+.care__visual.is-jewellery .care__jewel-caption { opacity: 1; transform: none; }
+.care__jewel-detail {
+  position: absolute;
+  z-index: 2;
+  bottom: 4%;
+  left: 4%;
+  width: 43%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 6px solid var(--paper);
+  border-radius: 50%;
+  box-shadow: 0 22px 48px rgba(13,39,31,.34);
+  opacity: 0;
+  transform: translate(-18px, 22px) scale(.72);
+  transition: opacity .4s .55s, transform .75s .45s var(--ease);
+}
+.care__jewel-detail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 42% center;
+  transform: translateX(-25%) scale(2);
+  transform-origin: 42% 50%;
+}
+.care__visual.is-jewellery .care__jewel-photo {
+  opacity: 1;
+  clip-path: circle(72% at 50% 50%);
+  transform: none;
+}
+.care__visual.is-jewellery .care__jewel-detail {
+  opacity: 1;
+  transform: none;
+  animation: jewelLensFloat 5.4s 1.15s ease-in-out infinite;
+}
+@keyframes jewelLensFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1deg); }
+  50% { transform: translate3d(7px, -10px, 0) rotate(1.5deg); }
+}
 .care__label {
   position: absolute;
   right: 11%;
@@ -567,6 +650,26 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   text-transform: uppercase;
 }
 .care__label span { display: block; margin-bottom: 4px; font-size: 1.2rem; }
+.care__visual.is-jewellery .care__label {
+  z-index: 20;
+  top: auto;
+  right: 16%;
+  bottom: 17%;
+  left: auto;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 30px;
+  color: var(--paper);
+  background: rgba(13,39,31,.7);
+  box-shadow: 0 8px 24px rgba(13,39,31,.2);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.care__visual.is-jewellery .care__label span {
+  display: inline;
+  margin: 0 6px 0 0;
+  font-size: .6rem;
+}
 .care-item { border-top: 1px solid var(--line); }
 .care-item:last-child { border-bottom: 1px solid var(--line); }
 .care-item button {
@@ -582,6 +685,59 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 }
 .care-item__no { font-family: var(--mono); font-size: .64rem; }
 .care-item__title { font-size: clamp(1.6rem, 3vw, 3rem); letter-spacing: -.045em; }
+.care-item__title--jewel { position: relative; width: fit-content; }
+.care-item__title--jewel::after {
+  position: absolute;
+  right: 0;
+  bottom: -.12em;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #573079, var(--acid) 30%, #fff 50%, var(--acid) 72%, #573079);
+  box-shadow: 0 0 9px rgba(92,55,126,.24);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s .15s var(--ease);
+}
+.care-item--jewel.is-in-view .care-item__title--jewel::after { transform: scaleX(1); }
+.jewel-sparkles { position: absolute; inset: 0; pointer-events: none; }
+.jewel-sparkles b {
+  --spark-color: #573079;
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  display: block;
+  opacity: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 10%, var(--acid) 11% 23%, transparent 25%);
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 7px rgba(87,48,121,.72));
+  transform: scale(.2) rotate(45deg);
+}
+.jewel-sparkles b::before,
+.jewel-sparkles b::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: var(--spark-color);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+.jewel-sparkles b::before { width: 100%; height: 3px; }
+.jewel-sparkles b::after { width: 3px; height: 100%; }
+.jewel-sparkles b:nth-child(1) { top: -13px; right: -24px; }
+.jewel-sparkles b:nth-child(2) { --spark-color: #006a90; right: 16%; bottom: -13px; width: 14px; height: 14px; }
+.jewel-sparkles b:nth-child(3) { --spark-color: var(--forest); top: -4px; left: 42%; width: 11px; height: 11px; }
+.care-item--jewel.is-in-view .jewel-sparkles b { animation: jewelTwinkle 2.7s ease-in-out infinite; }
+.care-item--jewel.is-in-view .jewel-sparkles b:nth-child(2) { animation-delay: .8s; }
+.care-item--jewel.is-in-view .jewel-sparkles b:nth-child(3) { animation-delay: 1.6s; }
+.care-item--jewel.is-active .jewel-sparkles b { animation-duration: 1.95s; }
+@keyframes jewelTwinkle {
+  0%, 32%, 100% { opacity: 0; transform: scale(.25) rotate(18deg); }
+  9% { opacity: 1; transform: scale(1.18) rotate(45deg); }
+  18% { opacity: .82; transform: scale(.86) rotate(68deg); }
+  25% { opacity: .3; transform: scale(.48) rotate(88deg); }
+}
 .care-item button i {
   width: 34px;
   height: 34px;
@@ -600,7 +756,9 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   transition: max-height .6s var(--ease);
 }
 .care-item.is-active .care-item__body { max-height: 190px; }
+.care-item--jewel.is-active .care-item__body { max-height: 760px; }
 .care-item__body p { max-width: 460px; padding: 0 20px 24px 0; color: var(--ink-soft); }
+.care-item__jewel-inline { display: none; }
 .care-item__body a {
   display: inline-flex;
   gap: 15px;
@@ -1328,6 +1486,78 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .care-item button { min-height: 90px; grid-template-columns: 36px 1fr auto; gap: 8px; }
   .care-item__title { font-size: 1.65rem; }
   .care-item__body { padding-left: 44px; }
+  .care-item__jewel-inline {
+    position: relative;
+    width: min(100%, 390px);
+    aspect-ratio: 4 / 5;
+    display: block;
+    margin: 2px 0 26px;
+    overflow: hidden;
+    border-radius: 2px 42px 2px 2px;
+    background: var(--forest);
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(24px);
+    transition: clip-path .9s .18s var(--ease), transform .9s .18s var(--ease);
+  }
+  .care-item--jewel.is-active .care-item__jewel-inline { clip-path: inset(0); transform: none; }
+  .care-item__jewel-inline img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .care-item__jewel-portrait { z-index: 0; object-position: center 38%; }
+  .care-item__jewel-focus {
+    z-index: 1;
+    object-position: 58% center;
+    opacity: 0;
+    transform: scale(1.56);
+    transform-origin: 78% 50%;
+  }
+  .care-item--jewel.is-active .care-item__jewel-portrait { animation: mobilePortraitOut 6.2s .35s var(--ease) forwards; }
+  .care-item--jewel.is-active .care-item__jewel-focus { animation: mobileJewelFocus 6.2s .35s var(--ease) forwards; }
+  @keyframes mobilePortraitOut {
+    0%, 38% { opacity: 1; transform: scale(1); }
+    58%, 100% { opacity: 0; transform: scale(1.06); }
+  }
+  @keyframes mobileJewelFocus {
+    0%, 38% { opacity: 0; transform: scale(1.56); }
+    58% { opacity: 1; transform: scale(1.5); }
+    100% { opacity: 1; transform: scale(1.45); }
+  }
+  .care-item__jewel-inline::after {
+    position: absolute;
+    z-index: 2;
+    inset: 45% 0 0;
+    background: linear-gradient(transparent, rgba(13,39,31,.76));
+    content: "";
+  }
+  .care-item__jewel-inline figcaption {
+    position: absolute;
+    z-index: 20;
+    top: 15px;
+    right: 14px;
+    left: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: #fff;
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .care-item__jewel-inline figcaption span {
+    padding: 8px 10px;
+    border: 1px solid rgba(255,255,255,.34);
+    border-radius: 30px;
+    background: rgba(13,39,31,.72);
+    box-shadow: 0 8px 22px rgba(13,39,31,.2);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+  .care-item__jewel-inline figcaption span:last-child { color: var(--ink); background: var(--acid); border-color: transparent; }
   .invisalign { scroll-margin-top: -68px; }
   .invisalign__visual { min-height: 72vh; }
   .invisalign__video { opacity: .28; object-position: center; }
@@ -1436,4 +1666,14 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .invisalign__smile,
   .invisalign__detail { opacity: 1; transform: none; }
   .invisalign__progress { display: none; }
+  .care-item--jewel.is-in-view .jewel-sparkles b { opacity: .75; animation: none; transform: scale(.8) rotate(45deg); }
+  .care__jewel-photo,
+  .care__jewel-detail,
+  .care__jewel-caption,
+  .care-item__jewel-inline { transition: none; }
+  .care__visual.is-jewellery .care__jewel-detail,
+  .care-item--jewel.is-active .care-item__jewel-portrait,
+  .care-item--jewel.is-active .care-item__jewel-focus { animation: none; }
+  .care-item--jewel.is-active .care-item__jewel-portrait { opacity: 0; }
+  .care-item--jewel.is-active .care-item__jewel-focus { opacity: 1; transform: scale(1.45); }
 }

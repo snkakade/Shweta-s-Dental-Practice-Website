@@ -30,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;1,6..72,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.25/dist/lenis.css">
-  <link rel="stylesheet" href="style.css?v=20260702-7">
+  <link rel="stylesheet" href="style.css?v=20260702-15">
 
   <script type="application/ld+json">
   {
@@ -274,6 +274,13 @@
       <div class="care__stage">
         <div class="care__visual reveal">
           <div class="care__rings" aria-hidden="true"><i></i><i></i><i></i></div>
+          <figure class="care__jewel-photo">
+            <img src="images/tooth-jewellery-portrait.webp" alt="Patient smiling with professionally placed tooth jewellery" width="972" height="1215" loading="lazy">
+            <span class="care__jewel-detail" aria-hidden="true">
+              <img src="images/tooth-jewellery-detail.webp" alt="" width="840" height="600" loading="lazy">
+            </span>
+          </figure>
+          <span class="care__jewel-caption" aria-hidden="true">Smile detail · 03</span>
           <svg class="care__tooth" viewBox="0 0 180 220" fill="none" aria-hidden="true">
             <path d="M46 18C64 5 82 20 90 20s26-15 44-2c30 21 13 62 2 84-10 20-14 82-34 82-15 0-10-52-24-52s-9 52-24 52c-20 0-24-62-34-82C9 80-8 39 22 18c8-6 16-6 24 0Z" stroke="currentColor" stroke-width="1.2"/>
             <path d="M50 42c20-14 32 3 40 3s20-17 40-3" stroke="currentColor" stroke-width="1.2"/>
@@ -304,9 +311,28 @@
               <a href="#book">Restore with confidence <span>↗</span></a>
             </div>
           </article>
-          <article class="care-item" data-care="Refine" data-number="03">
+          <article class="care-item care-item--jewel" data-care="Adorn" data-number="03">
             <button type="button" aria-expanded="false">
               <span class="care-item__no">03</span>
+              <span class="care-item__title care-item__title--jewel">
+                <span>Tooth jewellery</span>
+                <span class="jewel-sparkles" aria-hidden="true"><b></b><b></b><b></b></span>
+              </span>
+              <i>+</i>
+            </button>
+            <div class="care-item__body">
+              <p>A tiny, professionally placed accent for your smile, applied without drilling and designed to be removable.</p>
+              <figure class="care-item__jewel-inline">
+                <img class="care-item__jewel-portrait" src="images/tooth-jewellery-portrait.webp" alt="Patient smiling with tooth jewellery" width="972" height="1215" loading="lazy">
+                <img class="care-item__jewel-focus" src="images/tooth-jewellery-detail.webp" alt="Close-up of the tooth jewellery" width="840" height="600" loading="lazy">
+                <figcaption><span>Adorn · 03</span><span>Smile detail</span></figcaption>
+              </figure>
+              <a href="#book">Add a little sparkle <span>↗</span></a>
+            </div>
+          </article>
+          <article class="care-item" data-care="Refine" data-number="04">
+            <button type="button" aria-expanded="false">
+              <span class="care-item__no">04</span>
               <span class="care-item__title">Smile design</span>
               <i>+</i>
             </button>
@@ -315,9 +341,9 @@
               <a href="#results">See real results <span>↗</span></a>
             </div>
           </article>
-          <article class="care-item" data-care="Preserve" data-number="04">
+          <article class="care-item" data-care="Preserve" data-number="05">
             <button type="button" aria-expanded="false">
-              <span class="care-item__no">04</span>
+              <span class="care-item__no">05</span>
               <span class="care-item__title">Everyday dentistry</span>
               <i>+</i>
             </button>
@@ -326,26 +352,15 @@
               <a href="#book">Book a check-up <span>↗</span></a>
             </div>
           </article>
-          <article class="care-item" data-care="Relieve" data-number="05">
+          <article class="care-item" data-care="Relieve" data-number="06">
             <button type="button" aria-expanded="false">
-              <span class="care-item__no">05</span>
+              <span class="care-item__no">06</span>
               <span class="care-item__title">Root canal care</span>
               <i>+</i>
             </button>
             <div class="care-item__body">
               <p>Focused, gentle treatment to relieve pain and give your natural tooth a stronger future.</p>
               <a href="tel:+918605864503">Talk to us today <span>↗</span></a>
-            </div>
-          </article>
-          <article class="care-item" data-care="Adorn" data-number="06">
-            <button type="button" aria-expanded="false">
-              <span class="care-item__no">06</span>
-              <span class="care-item__title">Tooth jewellery</span>
-              <i>+</i>
-            </button>
-            <div class="care-item__body">
-              <p>A tiny, professionally placed accent for your smile, applied without drilling and designed to be removable.</p>
-              <a href="#book">Add a little sparkle <span>↗</span></a>
             </div>
           </article>
         </div>
@@ -631,6 +646,6 @@
   </a>
 
   <script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
-  <script src="script.js?v=20260702-6"></script>
+  <script src="script.js?v=20260702-10"></script>
 </body>
 </html>
