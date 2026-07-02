@@ -42,13 +42,41 @@
 
   const header = document.getElementById("header");
   const progressBar = document.getElementById("scrollProgress");
+  const whatsappFloater = document.getElementById("whatsappFloater");
+  const footerDegree = document.getElementById("footerDegree");
+  const updateWhatsAppDock = () => {
+    if (!whatsappFloater || !footerDegree) return;
+
+    const target = footerDegree.getBoundingClientRect();
+    const mobile = window.matchMedia("(max-width: 680px)").matches;
+    const targetIsVisible = target.top >= 0 && target.bottom <= window.innerHeight;
+    const shouldDock = mobile && targetIsVisible;
+
+    if (shouldDock) {
+      const styles = getComputedStyle(whatsappFloater);
+      const baseX = window.innerWidth - parseFloat(styles.right) - whatsappFloater.offsetWidth / 2;
+      const baseY = window.innerHeight - parseFloat(styles.bottom) - whatsappFloater.offsetHeight / 2;
+      const targetX = target.left + target.width / 2;
+      const targetY = target.top + target.height / 2;
+      const dockX = targetX - baseX;
+      const dockY = targetY - baseY;
+      whatsappFloater.style.setProperty("--dock-x", `${dockX}px`);
+      whatsappFloater.style.setProperty("--dock-y", `${dockY}px`);
+      whatsappFloater.style.setProperty("--dock-arc-x", `${dockX * .55}px`);
+      whatsappFloater.style.setProperty("--dock-arc-y", `${dockY * .55 - 64}px`);
+    }
+
+    whatsappFloater.classList.toggle("is-docked", shouldDock);
+  };
   const updateScroll = () => {
     const y = window.scrollY;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     header.classList.toggle("is-scrolled", y > 30);
     progressBar.style.width = `${max > 0 ? (y / max) * 100 : 0}%`;
+    updateWhatsAppDock();
   };
   window.addEventListener("scroll", updateScroll, { passive: true });
+  window.addEventListener("resize", updateWhatsAppDock);
   updateScroll();
 
   const menuButton = document.getElementById("menuButton");

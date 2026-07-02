@@ -1155,6 +1155,10 @@ h2 em { font-family: var(--serif); font-weight: 300; }
 .footer__credit:hover { border-color: var(--acid); color: var(--ink); background: var(--acid); transform: translateY(-2px); }
 
 .whatsapp {
+  --dock-x: 0px;
+  --dock-y: 0px;
+  --dock-arc-x: 0px;
+  --dock-arc-y: 0px;
   position: fixed;
   z-index: 900;
   right: 22px;
@@ -1167,6 +1171,7 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   color: var(--ink);
   background: var(--acid);
   box-shadow: 0 12px 30px rgba(20,40,32,.2);
+  transition: transform .9s var(--ease), color .45s, background .45s, box-shadow .45s;
 }
 .whatsapp svg { width: 25px; }
 
@@ -1348,8 +1353,34 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .footer__call { align-items: flex-start; }
   .footer__middle nav { flex-wrap: wrap; }
   .footer__wordmark { margin: 50px 0 20px; }
+  .footer__wordmark span {
+    position: relative;
+    width: .36em;
+    height: .36em;
+    display: inline-block;
+    margin-left: .06em;
+    border: .025em solid var(--acid);
+    border-radius: 50%;
+    color: transparent;
+    letter-spacing: 0;
+    vertical-align: top;
+  }
   .footer__bottom { flex-wrap: wrap; gap: 18px; font-size: .62rem; }
   .footer__credit { width: 100%; display: flex; justify-content: center; order: -1; font-size: .68rem; text-align: center; }
+  .whatsapp.is-docked {
+    color: var(--ink);
+    background: var(--acid);
+    box-shadow: 0 0 0 5px var(--forest), 0 0 0 7px rgba(217,243,109,.72), 0 14px 28px rgba(0,0,0,.28);
+    transform: translate3d(var(--dock-x), var(--dock-y), 0) rotate(-720deg) scale(.76);
+    animation: whatsappDock .95s var(--ease) both;
+  }
+}
+
+@keyframes whatsappDock {
+  0% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
+  48% { transform: translate3d(var(--dock-arc-x), var(--dock-arc-y), 0) rotate(-360deg) scale(.86); }
+  78% { transform: translate3d(var(--dock-x), var(--dock-y), 0) rotate(-680deg) scale(.66); }
+  100% { transform: translate3d(var(--dock-x), var(--dock-y), 0) rotate(-720deg) scale(.76); }
 }
 
 @media (prefers-reduced-motion: reduce) {
