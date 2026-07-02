@@ -363,6 +363,8 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   margin: clamp(40px, 6vh, 70px) 0 0 9vw;
 }
 .hero__intro p { max-width: 330px; color: var(--ink-soft); font-size: clamp(.9rem, 1.2vw, 1.05rem); }
+.hero__actions { display: flex; flex: 0 0 auto; }
+.hero__map-link { display: none; }
 .round-link {
   width: 112px;
   height: 112px;
@@ -1245,7 +1247,26 @@ h2 em { font-family: var(--serif); font-weight: 300; }
   .hero h1 { font-size: clamp(4rem, 20vw, 6.2rem); }
   .hero h1 .line--offset { padding-left: 0; }
   .hero__intro { align-items: flex-start; flex-direction: column; gap: 24px; margin: 30px 0 0; }
-  .round-link { width: 82px; height: 82px; font-size: .52rem; }
+  .hero__actions { width: 100%; gap: 10px; }
+  .hero__actions .round-link,
+  .hero__map-link {
+    width: calc(50% - 5px);
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 9px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .025em;
+    text-transform: uppercase;
+  }
+  .hero__actions .round-link { color: var(--paper); background: var(--ink); }
+  .hero__map-link { color: var(--ink); background: var(--acid); }
+  .hero__actions svg { width: 18px; height: 18px; flex: 0 0 auto; }
   .hero__meta { bottom: 16px; left: 20px; right: 20px; }
   .hero__meta span:first-child { display: none; }
   .hero__meta { justify-content: flex-end; }
