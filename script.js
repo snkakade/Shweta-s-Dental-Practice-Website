@@ -47,7 +47,7 @@
   let whatsappStopTimer = null;
   let whatsappLookTimer = null;
   const isAtPageEnd = () => (
-    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 3
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8
   );
   const positionWhatsAppDock = () => {
     if (!whatsappFloater || !footerDegree) return;
@@ -55,15 +55,16 @@
     const styles = getComputedStyle(whatsappFloater);
     const baseX = window.innerWidth - parseFloat(styles.right) - whatsappFloater.offsetWidth / 2;
     const baseY = window.innerHeight - parseFloat(styles.bottom) - whatsappFloater.offsetHeight / 2;
-    const mobileLandingOffset = window.matchMedia("(max-width: 680px)").matches ? 28 : 0;
-    const targetX = Math.min(target.left + target.width / 2 + mobileLandingOffset, window.innerWidth - 24);
+    const targetX = target.left + target.width / 2;
     const targetY = target.top + target.height / 2;
     const dockX = targetX - baseX;
     const dockY = targetY - baseY;
+    const dockScale = Math.min(1.34, Math.max(.67, target.width / whatsappFloater.offsetWidth));
     whatsappFloater.style.setProperty("--dock-x", `${dockX}px`);
     whatsappFloater.style.setProperty("--dock-y", `${dockY}px`);
     whatsappFloater.style.setProperty("--dock-arc-x", `${dockX * .52}px`);
     whatsappFloater.style.setProperty("--dock-arc-y", `${dockY - 120}px`);
+    whatsappFloater.style.setProperty("--dock-scale", dockScale.toFixed(3));
   };
   const resetWhatsAppDock = () => {
     window.clearTimeout(whatsappStopTimer);
